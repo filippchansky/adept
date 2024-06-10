@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import {
   deleteCompanies,
+  editCompany,
   selectAllCompanies,
   selectCompany,
   unselectAllCompanies,
@@ -33,6 +34,13 @@ const TableCompany: React.FC<TableCompanyProps> = ({}) => {
   const handleDeleteCompanies = () => {
     dispatch(deleteCompanies(selectedCompaniesIds));
   };
+	const handleEdit = (id: number, field: string, newValue: string) => {
+		dispatch(editCompany({
+			id: id,
+			field: field,
+			value: newValue
+		}))
+	}
   console.log(staff);
 
   return (
@@ -70,7 +78,7 @@ const TableCompany: React.FC<TableCompanyProps> = ({}) => {
                 />
               </td>
               <td>
-                <TableItem id={item.id} value={item.name} field="name" />
+                <TableItem id={item.id} value={item.name} field="name" onEdit={handleEdit} />
               </td>
               <td>
                 {
@@ -79,7 +87,7 @@ const TableCompany: React.FC<TableCompanyProps> = ({}) => {
                 }
               </td>
               <td>
-                <TableItem id={item.id} value={item.address} field="address" />
+                <TableItem id={item.id} value={item.address} field="address" onEdit={handleEdit} />
               </td>
             </tr>
           ))}

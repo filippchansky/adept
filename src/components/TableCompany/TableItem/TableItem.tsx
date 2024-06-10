@@ -2,29 +2,21 @@ import React, { useState } from "react";
 import style from "./style.module.scss";
 import editIcon from "/icons/edit.svg";
 import doneIcon from "/icons/done.svg";
-import { useDispatch } from "react-redux";
-import { editCompany } from "../../../store/slices/companySlice";
 
 interface TableItemProps {
   value: string;
   id: number;
   field?: string;
+  onEdit: (id: number, field: string, newValue: string) => void
 }
 
-export const TableItem: React.FC<TableItemProps> = ({ value, id, field }) => {
-  const dispatch = useDispatch();
+export const TableItem: React.FC<TableItemProps> = ({ value, id, field, onEdit }) => {
   const [edit, setEdit] = useState(false);
   const [newValue, setNewValue] = useState(value);
 
   const handleEdit = () => {
     if (field) {
-      dispatch(
-        editCompany({
-          id: id,
-          field: field,
-          value: newValue,
-        })
-      );
+      onEdit(id, field, newValue)
     }
     setEdit(false);
   };

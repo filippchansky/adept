@@ -1,12 +1,14 @@
 import React from "react";
 import style from "./style.module.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { TableItem } from "../TableCompany/TableItem/TableItem";
+import { editStaff } from "../../store/slices/staffSlice";
 
 interface TableStaffProps {}
 
 export const TableStaff: React.FC<TableStaffProps> = ({}) => {
+  const dispatch = useDispatch()
   const staffState = useSelector((state: RootState) => state.staff);
   const companiesId = useSelector(
     (state: RootState) => state.companies.selectedCompaniesIds
@@ -14,6 +16,14 @@ export const TableStaff: React.FC<TableStaffProps> = ({}) => {
   const staff = staffState.filter((item) =>
     companiesId.includes(item.companyId)
   );
+
+  const handleEdit = (id: number, field: string, newValue: string) => {
+    dispatch(editStaff({
+      id: id,
+      field: field,
+      value: newValue
+    }))
+  }
 
   if (companiesId.length === 0) {
     return null;
@@ -39,13 +49,13 @@ export const TableStaff: React.FC<TableStaffProps> = ({}) => {
               <input type="checkbox" name="" id="" />
             </td>
             <td>
-              <TableItem value={item.lastName} id={item.id} />
+              <TableItem value={item.lastName} id={item.id} onEdit={handleEdit} field="lastName"/>
             </td>
             <td>
-              <TableItem value={item.firstName} id={item.id} />
+              <TableItem value={item.firstName} id={item.id} onEdit={handleEdit} field="firstName"/>
             </td>
             <td>
-              <TableItem value={item.position} id={item.id} />
+              <TableItem value={item.position} id={item.id} onEdit={handleEdit} field="position"/>
             </td>
           </tr>
         ))}
