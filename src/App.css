@@ -87,3 +87,7 @@ label {
 legend {
 	display: block;
 }
+
+.body {
+	display: flex;
+}

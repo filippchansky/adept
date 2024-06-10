@@ -1,0 +1,14 @@
+.content {
+  display: flex;
+  justify-content: space-between;
+
+  .editInput {
+    padding: 2px;
+    border: 1px solid black;
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+}
