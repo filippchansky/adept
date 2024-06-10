@@ -34,17 +34,27 @@ const TableCompany: React.FC<TableCompanyProps> = ({}) => {
   const handleDeleteCompanies = () => {
     dispatch(deleteCompanies(selectedCompaniesIds));
   };
-	const handleEdit = (id: number, field: string, newValue: string) => {
-		dispatch(editCompany({
-			id: id,
-			field: field,
-			value: newValue
-		}))
-	}
+  const handleEdit = (id: number, field: string, newValue: string) => {
+    dispatch(
+      editCompany({
+        id: id,
+        field: field,
+        value: newValue,
+      })
+    );
+  };
   console.log(staff);
 
   return (
     <>
+      <button
+        className={
+          selectedCompaniesIds.length > 0 ? style.deleteBtn : style.btnDisabled
+        }
+        onClick={handleDeleteCompanies}
+      >{`Удалить ${
+        selectedCompaniesIds.length > 0 ? selectedCompaniesIds.length : ""
+      }`}</button>
       <table className={style.table}>
         <thead>
           <tr>
@@ -54,7 +64,6 @@ const TableCompany: React.FC<TableCompanyProps> = ({}) => {
                 checked={selectedCompaniesIds.length === companies.length}
                 onChange={handleSelectAll}
               />
-              Выделить всё
             </th>
             <th>Название компании</th>
             <th>Кол-во сотрудников</th>
@@ -64,6 +73,7 @@ const TableCompany: React.FC<TableCompanyProps> = ({}) => {
         <tbody>
           {companies.map((item) => (
             <tr
+            key={item.id}
               className={
                 selectedCompaniesIds.includes(item.id)
                   ? style.border
@@ -78,22 +88,31 @@ const TableCompany: React.FC<TableCompanyProps> = ({}) => {
                 />
               </td>
               <td>
-                <TableItem id={item.id} value={item.name} field="name" onEdit={handleEdit} />
+                <TableItem
+                  id={item.id}
+                  value={item.name}
+                  field="name"
+                  onEdit={handleEdit}
+                />
               </td>
               <td>
                 {
-                  staff.filter((staffItem) => staffItem.companyId === item.id)
+                  staff.staff.filter((staffItem) => staffItem.companyId === item.id)
                     .length
                 }
               </td>
               <td>
-                <TableItem id={item.id} value={item.address} field="address" onEdit={handleEdit} />
+                <TableItem
+                  id={item.id}
+                  value={item.address}
+                  field="address"
+                  onEdit={handleEdit}
+                />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button  className={selectedCompaniesIds.length > 0 ? style.deleteBtn : style.btnDisabled} onClick={handleDeleteCompanies}>delete</button>
     </>
   );
 };
